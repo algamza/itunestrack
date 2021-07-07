@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">iTunesTrack</string>
+    <string name="STR_FAVORITE">즐겨찾기</string>
+    <string name="STR_LIST">리스트</string>
+</resources>
