@@ -22,3 +22,5 @@
 
 ### Class Diagram
 
+![](https://github.com/algamza/itunestrack/blob/main/class_diagram.png?raw=true)
+
