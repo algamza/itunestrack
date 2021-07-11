@@ -14,12 +14,7 @@ class FavoriteViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var favorite: LiveData<List<FavoriteData>> = Transformations.map(repository.favorite) {
-        var arr = ArrayList<FavoriteData>()
-        for ( data in it ) {
-            if ( !data.favorite ) continue
-            arr.add(FavoriteData(callback, data.id, data.name, data.group, data.artist, data.url, data.favorite))
-        }
-        arr
+        it.map { FavoriteData(callback, it.id, it.name, it.group, it.artist, it.url, it.favorite) }
     }
 
     private var callback = (object: FavoriteData.Callback {

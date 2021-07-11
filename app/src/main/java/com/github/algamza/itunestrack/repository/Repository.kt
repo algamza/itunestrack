@@ -17,33 +17,23 @@ class Repository @Inject constructor(
         private var remoteRepo: RemoteRepo) {
     var content: LiveData<List<ContentModel>> = Transformations.map(
         contentDao.getContentFavoriteEntities()) {
-        val models = ArrayList<ContentModel>()
-        for ( entity in it ) {
-            var _content = entity.content
-            var _favorite = entity.favorite
-            models.add(ContentModel(_content.id, _content.name, _content.group,
-                _content.artist, _content.url, when(_favorite) {
-                null -> false
-                else -> _favorite.favorite
-            }))
+        it.map {
+            ContentModel(it.content.id, it.content.name, it.content.group,
+                it.content.artist, it.content.url, when(it.favorite) {
+                    null -> false
+                    else -> it.favorite!!.favorite
+                })
         }
-        models
     }
         get() {
             requestTrack(30, 0)
             return field
         }
 
-    var favorite: LiveData<List<ContentModel>> = Transformations.map(contentDao.getFavoriteContentEntities()) {
-        val models = ArrayList<ContentModel>()
-        for ( entity in it ) {
-            var _content = entity.content
-            var _favorite = entity.favorite
-            if ( _content == null ) continue
-            models.add(ContentModel(_content.id, _content.name, _content.group,
-                _content.artist, _content.url, _favorite.favorite))
-        }
-        models
+    var favorite: LiveData<List<ContentModel>> =
+        Transformations.map(contentDao.getFavoriteContentEntities()) {
+        it.map { ContentModel(it.content!!.id, it.content!!.name, it.content!!.group,
+            it.content!!.artist, it.content!!.url, it.favorite!!.favorite) }
     }
 
     fun updateFavorite(id: Int, favorite: Boolean) {

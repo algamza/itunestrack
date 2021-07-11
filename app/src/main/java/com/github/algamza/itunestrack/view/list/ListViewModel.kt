@@ -13,11 +13,7 @@ class ListViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     var content: LiveData<List<ListData>> = Transformations.map(repository.content) {
-        var arr = ArrayList<ListData>()
-        for ( data in it ) {
-            arr.add(ListData(callback, data.id, data.name, data.group, data.artist, data.url, data.favorite))
-        }
-        arr
+        it.map { ListData(callback, it.id, it.name, it.group, it.artist, it.url, it.favorite) }
     }
 
     fun requestTrack(limit: Int, offset: Int) {
