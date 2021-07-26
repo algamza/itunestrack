@@ -1,4 +1,3 @@
-# 왓챠 과제전형
 
 
 ### Technologies & Methodologies which used:
